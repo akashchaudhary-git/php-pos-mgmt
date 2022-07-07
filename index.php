@@ -1,3 +1,28 @@
+<?php
+include_once('./config/connectdb.php');
+// session_start();
+$login_err = 'Sign in to start your session';
+if (isset($_POST['submit'])) {
+    $useremail = htmlspecialchars($_POST['email']);
+    $userpassword = htmlspecialchars($_POST['password']);
+
+    // Check User Validation
+    $query = $con->prepare("SELECT * FROM table_users WHERE user_email=:email AND user_password=:password");
+    $query->bindValue(":email", $useremail);
+    $query->bindValue(":password", $userpassword);
+    $query->execute();
+
+
+
+    if ($query->rowCount() == 1) {
+        header("Refresh:1; dashboard.php");
+    } else {
+        $login_err = "<span class='bg-maroon rounded shadow p-1'>Please enter correct login details</span>";
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,11 +49,12 @@
         <!-- /.login-logo -->
         <div class="card shadow rounded">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+
+                <?php echo '<p class="login-box-msg ">' . $login_err . '</p>'; ?>
 
                 <form action="" method="post">
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email">
+                        <input type="email" name="email" class="form-control" placeholder="Email">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -36,7 +62,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password">
+                        <input type="password" name="password" class="form-control" placeholder="Password">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -47,7 +73,7 @@
 
                         <!-- /.col -->
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                            <button type="submit" name="submit" class="btn btn-primary btn-block">Sign In</button>
                         </div>
                         <!-- /.col -->
                     </div>

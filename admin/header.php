@@ -2,7 +2,7 @@
 session_start();
 
 // if $_SESSION is empty/ User has not logged in redirect to main 
-if ($_SESSION['user_email'] == "") {
+if (!(isset($_SESSION['user_email']))) {
     header("Location:../index.php");
 }
 ?>

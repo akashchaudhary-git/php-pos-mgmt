@@ -2,7 +2,7 @@
 session_start();
 
 // if $_SESSION is empty/ User has not logged in redirect to main 
-if ($_SESSION['user_email'] == "") {
+if (!(isset($_SESSION['user_email']))) {
     header("Location:../index.php");
 }
 
@@ -60,7 +60,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             &nbsp;Change Password
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="logout.php">
                             <i class="fas fa-sign-out-alt"></i>
                             &nbsp;Log Out
                         </a>

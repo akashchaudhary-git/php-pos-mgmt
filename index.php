@@ -20,8 +20,16 @@ if (isset($_POST['submit'])) {
 
         // var_dump($row);
         if ($row['user_role'] === "Admin") {
+            $_SESSION['user_id'] = $row['user_id'];
+            $_SESSION['user_name'] = $row['user_name'];
+            $_SESSION['user_email'] = $row['user_email'];
+            $_SESSION['user_role'] = $row['user_role'];
             header("Refresh:1; ./admin/dashboard.php");
         } elseif ($row['user_role'] === "User") {
+            $_SESSION['user_id'] = $row['user_id'];
+            $_SESSION['user_name'] = $row['user_name'];
+            $_SESSION['user_email'] = $row['user_email'];
+            $_SESSION['user_role'] = $row['user_role'];
             header("Refresh:1; ./user/index.php");
         }
     } else {

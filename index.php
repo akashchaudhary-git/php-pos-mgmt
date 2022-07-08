@@ -1,6 +1,6 @@
 <?php
 include_once('./config/connectdb.php');
-// session_start();
+session_start();
 $login_err = 'Sign in to start your session';
 if (isset($_POST['submit'])) {
     $useremail = htmlspecialchars($_POST['email']);
@@ -15,7 +15,15 @@ if (isset($_POST['submit'])) {
 
 
     if ($query->rowCount() == 1) {
-        header("Refresh:1; ./admin/dashboard.php");
+
+        $row = $query->fetch(PDO::FETCH_ASSOC);
+
+        // var_dump($row);
+        if ($row['user_role'] === "Admin") {
+            header("Refresh:1; ./admin/dashboard.php");
+        } elseif ($row['user_role'] === "User") {
+            header("Refresh:1; ./user/index.php");
+        }
     } else {
         $login_err = "<span class='bg-maroon rounded shadow p-1'>Please enter correct login details</span>";
     }

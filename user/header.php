@@ -56,6 +56,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </a>
                     <div class="dropdown-menu dropdown-menu-md dropdown-menu-right" aria-labelledby="settingDropdown">
                         <a class="dropdown-item" href="#">
+                            <small class="text-muted mb-4">
+                                <i class="fas fa-envelope"></i>
+                                &nbsp;<?php echo $_SESSION['user_email']; ?></small>
+                        </a>
+                        <a class="dropdown-item" href="#">
                             <i class="fas fa-key"></i>
                             &nbsp;Change Password
                         </a>

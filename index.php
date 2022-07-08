@@ -15,7 +15,7 @@ if (isset($_POST['submit'])) {
 
 
     if ($query->rowCount() == 1) {
-        header("Refresh:1; dashboard.php");
+        header("Refresh:1; ./admin/dashboard.php");
     } else {
         $login_err = "<span class='bg-maroon rounded shadow p-1'>Please enter correct login details</span>";
     }

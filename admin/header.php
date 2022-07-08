@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+// if $_SESSION is empty/ User has not logged in redirect to main 
+if ($_SESSION['user_email'] == "") {
+    header("Location:../index.php");
+}
 ?>
 <!DOCTYPE html>
 <!--
@@ -11,7 +16,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Dashboard | Starter</title>
+    <title>Dashboard | Admin</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
@@ -46,6 +51,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- Account Settings -->
                     <a class="nav-link dropdown-toggle" title="Account Settings" href="#" id="settingDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-users-cog"> </i>
+                        <?php echo $_SESSION['user_name']; ?>
                     </a>
                     <div class="dropdown-menu dropdown-menu-md dropdown-menu-right" aria-labelledby="settingDropdown">
                         <a class="dropdown-item" href="#">
@@ -110,7 +116,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image" />
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
+                        <a href="#" class="d-block"><?php echo $_SESSION['user_name']; ?></a>
                     </div>
                 </div>
 

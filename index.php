@@ -1,41 +1,8 @@
 <?php
 include_once('./config/connectdb.php');
 session_start();
+
 $login_err = 'Sign in to start your session';
-if (isset($_POST['submit'])) {
-    $useremail = htmlspecialchars($_POST['email']);
-    $userpassword = htmlspecialchars($_POST['password']);
-
-    // Check User Validation
-    $query = $con->prepare("SELECT * FROM table_users WHERE user_email=:email AND user_password=:password");
-    $query->bindValue(":email", $useremail);
-    $query->bindValue(":password", $userpassword);
-    $query->execute();
-
-
-
-    if ($query->rowCount() == 1) {
-
-        $row = $query->fetch(PDO::FETCH_ASSOC);
-
-        // var_dump($row);
-        if ($row['user_role'] === "Admin") {
-            $_SESSION['user_id'] = $row['user_id'];
-            $_SESSION['user_name'] = $row['user_name'];
-            $_SESSION['user_email'] = $row['user_email'];
-            $_SESSION['user_role'] = $row['user_role'];
-            header("Refresh:1; ./admin/dashboard.php");
-        } elseif ($row['user_role'] === "User") {
-            $_SESSION['user_id'] = $row['user_id'];
-            $_SESSION['user_name'] = $row['user_name'];
-            $_SESSION['user_email'] = $row['user_email'];
-            $_SESSION['user_role'] = $row['user_role'];
-            header("Refresh:1; ./user/index.php");
-        }
-    } else {
-        $login_err = "<span class='bg-maroon rounded shadow p-1'>Please enter correct login details</span>";
-    }
-}
 
 ?>
 
@@ -65,12 +32,10 @@ if (isset($_POST['submit'])) {
         <!-- /.login-logo -->
         <div class="card shadow rounded">
             <div class="card-body login-card-body">
-
                 <?php echo '<p class="login-box-msg ">' . $login_err . '</p>'; ?>
-
                 <form action="" method="post">
                     <div class="input-group mb-3">
-                        <input type="email" name="email" class="form-control" placeholder="Email">
+                        <input type="email" name="email" class="form-control" placeholder="Email" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -78,7 +43,7 @@ if (isset($_POST['submit'])) {
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" name="password" class="form-control" placeholder="Password">
+                        <input type="password" name="password" class="form-control" placeholder="Password" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -107,12 +72,86 @@ if (isset($_POST['submit'])) {
     </div>
     <!-- /.login-box -->
 
+    <!-- Javascript -->
     <!-- jQuery -->
     <script src="/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="/dist/js/adminlte.min.js"></script>
+    <!-- Sweetalert JS v1.0.1 -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js'></script>
+
+    <!-- Custom Script -->
+    <script type="text/javascript">
+        // Sweet alert script function
+        function loginSuccess() {
+            swal({
+                title: "Login Success",
+                text: "Welcome back!",
+                type: "success",
+                icon: "success",
+            });
+        }
+
+        function loginFail() {
+            swal({
+                title: "Login Failed!",
+                text: "Please enter correct details",
+                type: "error",
+                icon: "error",
+            });
+        }
+    </script>
 </body>
 
 </html>
+
+<?php
+if (isset($_POST['submit'])) {
+    $useremail = htmlspecialchars($_POST['email']);
+    $userpassword = htmlspecialchars($_POST['password']);
+
+    // Check User Validation
+    $query = $con->prepare("SELECT * FROM table_users WHERE user_email=:email AND user_password=:password");
+    $query->bindValue(":email", $useremail);
+    $query->bindValue(":password", $userpassword);
+    $query->execute();
+
+
+
+    if ($query->rowCount() == 1) {
+
+        $row = $query->fetch(PDO::FETCH_ASSOC);
+        // var_dump($row);
+        if ($row['user_role'] === "Admin") {
+            $_SESSION['user_id'] = $row['user_id'];
+            $_SESSION['user_name'] = $row['user_name'];
+            $_SESSION['user_email'] = $row['user_email'];
+            $_SESSION['user_role'] = $row['user_role'];
+
+            echo '
+                <script type="text/javascript">
+                    loginSuccess();
+                </script>';
+
+            header("Refresh:2; ./admin/dashboard.php");
+        } elseif ($row['user_role'] === "User") {
+            $_SESSION['user_id'] = $row['user_id'];
+            $_SESSION['user_name'] = $row['user_name'];
+            $_SESSION['user_email'] = $row['user_email'];
+            $_SESSION['user_role'] = $row['user_role'];
+            echo '
+            <script type="text/javascript">
+                loginSuccess();
+            </script>';
+            header("Refresh:2; ./user/index.php");
+        }
+    } else {
+        echo '
+            <script type="text/javascript">
+                loginFail();
+            </script>';
+        $login_err = "<span class='bg-maroon rounded shadow p-1'>Please enter correct login details</span>";
+    }
+}

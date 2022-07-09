@@ -63,7 +63,7 @@ $login_err = 'Sign in to start your session';
 
 
                 <p class="text-center mb-1 mt-3">
-                    <a href="#">I forgot my password</a>
+                    <a href="#" onclick="swal('Attention','Please contact System Admin to recover your credentials.','warning');">I forgot my password</a>
                 </p>
 
             </div>

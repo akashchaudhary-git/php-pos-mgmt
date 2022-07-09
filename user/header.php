@@ -25,6 +25,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css" />
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/adminlte.min.css" />
+
+
+    <!-- Sweetalert JS v2.1.2 -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js'></script>
+
+    <!-- Custom Script -->
+    <script type="text/javascript">
+        // Sweet alert script function
+
+        function logOut() {
+            swal({
+                    title: "Attention!",
+                    text: "You'll be logged out from your account",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((logout) => {
+                    if (logout) {
+                        window.location = "logout.php";
+                    }
+                });
+        }
+    </script>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -65,7 +89,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             &nbsp;Change Password
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="logout.php">
+                        <a class="dropdown-item" onclick="logOut();" id="logtOut" href="#">
                             <i class="fas fa-sign-out-alt"></i>
                             &nbsp;Log Out
                         </a>

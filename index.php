@@ -31,8 +31,8 @@ $login_err = 'Sign in to start your session';
         </div>
         <!-- /.login-logo -->
         <div class="card shadow rounded">
-            <div class="card-body login-card-body">
-                <?php echo '<p class="login-box-msg ">' . $login_err . '</p>'; ?>
+            <div class="card-body login-card-body my-2">
+                <?php echo '<p class="login-box-msg mb-2">' . $login_err . '</p>'; ?>
                 <form action="" method="post">
                     <div class="input-group mb-3">
                         <input type="email" name="email" class="form-control" placeholder="Email" required>
@@ -62,7 +62,7 @@ $login_err = 'Sign in to start your session';
 
 
 
-                <p class="mb-1 mt-3">
+                <p class="text-center mb-1 mt-3">
                     <a href="#">I forgot my password</a>
                 </p>
 

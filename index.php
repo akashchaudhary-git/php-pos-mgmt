@@ -35,7 +35,7 @@ $login_err = 'Sign in to start your session';
                 <?php echo '<p class="login-box-msg mb-2">' . $login_err . '</p>'; ?>
                 <form action="" method="post">
                     <div class="input-group mb-3">
-                        <input type="email" name="email" class="form-control" placeholder="Email" required>
+                        <input type="email" name="email" class="form-control" placeholder="Email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>

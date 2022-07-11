@@ -30,15 +30,15 @@ include_once('header.php');
         <div class="container-fluid">
             <div class="row ">
 
-                <div class="col-lg-8">
+                <div class="col">
                     <!-- general form elements -->
-                    <div class="card card-outline card-success py-2 px-3">
+                    <div class="card card-outline card-primary py-2 px-3">
                         <div class="card-header">
                             <h3 class="card-title">Please enter your details</h3>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form>
+                        <form action="" method="POST">
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="emailInput">Email address</label>
@@ -46,22 +46,22 @@ include_once('header.php');
                                 </div>
                                 <div class="form-group">
                                     <label for="passwordOld">Old Password</label>
-                                    <input type="password" class="form-control" id="passwordOld" name="passwordOld" placeholder="Old Password" required>
+                                    <input type="password" class="form-control" id="passwordOld" name="passwordOld" value="<?php echo isset($_POST['change-password']) ? $_POST['passwordOld'] : ""; ?>" placeholder="Old Password" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="passwordNew">New Password</label>
-                                    <input type="password" class="form-control" id="passwordNew" name="passwordNew" placeholder="Enter new Password" required>
+                                    <input type="password" class="form-control" id="passwordNew" name="passwordNew" value="<?php echo isset($_POST['change-password']) ? $_POST['passwordNew'] : ""; ?>" placeholder="Enter new Password" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="passwordConfirm">Confirm Password</label>
-                                    <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="Confirm Password" required>
+                                    <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" value="<?php echo isset($_POST['change-password']) ? $_POST['passwordConfirm'] : ""; ?>" placeholder="Confirm Password" required>
                                 </div>
 
                             </div>
                             <!-- /.card-body -->
 
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" name="change-password" class="btn btn-primary">Change Password</button>
                             </div>
                         </form>
                     </div>
@@ -89,3 +89,47 @@ include_once('header.php');
 <?php
 
 include_once('footer.php');
+if (isset($_POST['change-password'])) {
+    $useremail = $_SESSION['user_email'];
+    $old_pass = htmlspecialchars($_POST['passwordOld']);
+    $new_pass = htmlspecialchars($_POST['passwordNew']);
+    $confirm_pass = htmlspecialchars($_POST['passwordConfirm']);
+
+    $query = $con->prepare("SELECT * FROM table_users WHERE user_email=:email");
+    $query->bindValue(":email", $useremail);
+    $query->execute();
+
+    $row = $query->fetch(PDO::FETCH_ASSOC);
+
+    if ($row['user_password'] === $old_pass) {
+
+        // Check both new passwords match
+        if ($new_pass === $confirm_pass) {
+            // echo '<script>alert("Old Password match");</script>';
+            // insert the updated password for current user
+
+        } else {
+            echo '<script>swal("New Password does not match!", {
+                buttons: false,
+                timer: 3000,
+                icon: "error",
+              });
+              
+            document.getElementById("passwordNew").value = "";
+            document.getElementById("passwordConfirm").value = "";
+            document.getElementById("passwordNew").focus();
+              </script>';
+        }
+    } else {
+        // echo '<script>alert("Old Password does not mathc");</script>';
+        echo '<script>swal("Old Password is incorrect!", {
+            buttons: false,
+            timer: 3000,
+            icon: "error",
+          });
+          
+          document.getElementById("passwordOld").value = "";
+          document.getElementById("passwordOld").focus();
+          </script>';
+    }
+}

@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once('../config/connectdb.php');
 
 // if $_SESSION is empty/ User has not logged in redirect to main 
 if (isset($_SESSION['user_email'])) {

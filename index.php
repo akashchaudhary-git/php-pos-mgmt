@@ -4,6 +4,14 @@ session_start();
 
 $login_err = 'Sign in to start your session';
 
+if (isset($_SESSION['user_role'])) {
+    if ($_SESSION['user_role'] === 'Admin') {
+        header("Location:./admin/dashboard.php");
+    } else if ($_SESSION['user_role'] === 'User') {
+        header("Location:./user/index.php");
+    }
+}
+
 ?>
 
 <!DOCTYPE html>

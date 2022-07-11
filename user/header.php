@@ -2,7 +2,18 @@
 session_start();
 
 // if $_SESSION is empty/ User has not logged in redirect to main 
-if (!(isset($_SESSION['user_email']))) {
+if (isset($_SESSION['user_email'])) {
+    // allow only user to access dashboard else redirect
+    if (!($_SESSION['user_role'] === 'User')) {
+        if ($_SESSION['user_role'] === 'Admin') {
+            header("Location:../admin/dashboard.php");
+        } else {
+            header("Location:../index.php");
+        }
+    } else {
+        // do nothing
+    }
+} else {
     header("Location:../index.php");
 }
 
@@ -61,7 +72,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Home</a>
+                    <a href="./" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Contact</a>
@@ -133,7 +144,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-success elevation-4">
             <!-- Brand Logo -->
-            <a href="#" class="brand-link">
+            <a href="./" class="brand-link">
                 <img src="../dist/img/AdminLTELogo.png" alt="POS Management" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
                 <span class="brand-text font-weight-light">POS Management</span>
             </a>

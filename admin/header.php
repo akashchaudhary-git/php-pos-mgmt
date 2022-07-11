@@ -2,9 +2,21 @@
 session_start();
 
 // if $_SESSION is empty/ User has not logged in redirect to main 
-if (!(isset($_SESSION['user_email']))) {
+if (isset($_SESSION['user_email'])) {
+    // allow only admin to access dashboard else redirect
+    if (!($_SESSION['user_role'] === 'Admin')) {
+        if ($_SESSION['user_role'] === 'User') {
+            header("Location:../user/index.php");
+        } else {
+            header("Location:../index.php");
+        }
+    } else {
+        // do nothing
+    }
+} else {
     header("Location:../index.php");
 }
+
 ?>
 <!DOCTYPE html>
 <!--

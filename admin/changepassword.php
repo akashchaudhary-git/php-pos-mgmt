@@ -108,6 +108,26 @@ if (isset($_POST['change-password'])) {
             // echo '<script>alert("Old Password match");</script>';
             // insert the updated password for current user
 
+            $updateQuery = $con->prepare("UPDATE table_users SET user_password=:new_pass WHERE user_email=:email");
+            $updateQuery->bindValue(":new_pass", $confirm_pass);
+            $updateQuery->bindValue(":email", $useremail);
+
+            // if update query executed or not alert user
+            if ($updateQuery->execute()) {
+                echo '<script>swal("Password updated Successfuly!", {
+                    title:"Success",
+                    buttons: false,
+                    timer: 2500,
+                    icon: "success",
+                  });</script>';
+            } else {
+                echo '<script>swal("Password not updated!", {
+                    title:"Failed!",
+                    buttons: false,
+                    timer: 2500,
+                    icon: "error",
+                  });</script>';
+            }
         } else {
             echo '<script>swal("New Password does not match!", {
                 buttons: false,

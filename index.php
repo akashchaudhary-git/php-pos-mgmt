@@ -98,7 +98,9 @@ if (isset($_SESSION['user_role'])) {
                 title: "Login Success",
                 text: "Welcome back!",
                 type: "success",
+                buttons: false,
                 icon: "success",
+                timer: 2000,
             });
         }
 
@@ -108,6 +110,8 @@ if (isset($_SESSION['user_role'])) {
                 text: "Please enter correct details",
                 type: "error",
                 icon: "error",
+                buttons: false,
+                timer: 2000,
             });
         }
     </script>

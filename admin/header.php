@@ -12,7 +12,7 @@ if (isset($_SESSION['user_email'])) {
             header("Location:../index.php");
         }
     } else {
-        // do nothing
+        // if loggeduser is admin do nothing
     }
 } else {
     header("Location:../index.php");

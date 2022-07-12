@@ -1,5 +1,7 @@
 <?php
 session_start();
+include_once('../config/connectdb.php');
+
 
 // if $_SESSION is empty/ User has not logged in redirect to main 
 if (isset($_SESSION['user_email'])) {
@@ -95,7 +97,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <i class="fas fa-envelope"></i>
                                 &nbsp;<?php echo $_SESSION['user_email']; ?></small>
                         </a>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="changepassword.php">
                             <i class="fas fa-key"></i>
                             &nbsp;Change Password
                         </a>

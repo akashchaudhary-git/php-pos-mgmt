@@ -13,7 +13,7 @@ include_once('header.php');
                 <!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+                        <li class="breadcrumb-item"><a href="./">Home</a></li>
                         <li class="breadcrumb-item active">Change Password</li>
                     </ol>
                 </div>
@@ -117,6 +117,7 @@ if (isset($_POST['change-password'])) {
                     icon: "warning",
                   });</script>';
             } else {
+
                 $updateQuery = $con->prepare("UPDATE table_users SET user_password=:new_pass WHERE user_email=:email");
                 $updateQuery->bindValue(":new_pass", $confirm_pass);
                 $updateQuery->bindValue(":email", $useremail);

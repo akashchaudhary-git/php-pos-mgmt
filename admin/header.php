@@ -2,6 +2,10 @@
 session_start();
 include_once('../config/connectdb.php');
 
+// check current dashboard page set active to sidebar links
+$filename = basename($_SERVER["SCRIPT_FILENAME"], '.php'); //for eg- dashboard.php
+$$filename = true; //$dashboard = true
+
 // if $_SESSION is empty/ User has not logged in redirect to main 
 if (isset($_SESSION['user_email'])) {
     // allow only admin to access dashboard else redirect
@@ -75,7 +79,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a href="dashboard.php" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
+                    <a href="#" class="nav-link"><?php echo $filename; ?></a>
                 </li>
             </ul>
 
@@ -142,7 +146,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-warning elevation-4">
+        <aside class="main-sidebar sidebar-dark-maroon elevation-4">
             <!-- Brand Logo -->
             <a href="dashboard.php" class="brand-link">
                 <img src="../dist/img/AdminLTELogo.png" alt="POS Management" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
@@ -182,7 +186,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         <!-- Dashboard link -->
                         <li class="nav-item">
-                            <a href="dashboard.php" class="nav-link">
+                            <a href="dashboard.php" class="nav-link <?php echo '' . ($dashboard) ? 'active' : ''; ?>">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
@@ -191,7 +195,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         <!-- Category link -->
                         <li class="nav-item">
-                            <a href="category.php" class="nav-link">
+                            <a href="category.php" class="nav-link <?php echo '' . ($category) ? 'active' : ''; ?>">
                                 <i class="nav-icon fas fa-clipboard-list"></i>
                                 <p>
                                     Category
@@ -200,7 +204,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         <!-- Registration link -->
                         <li class="nav-item">
-                            <a href="manageuser.php" class="nav-link">
+                            <a href="manageuser.php" class="nav-link <?php echo '' . ($manageuser) ? 'active' : ''; ?>">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     Manage Users

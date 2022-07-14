@@ -42,8 +42,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/adminlte.min.css" />
 
+    <!-- jsGrid theme -->
+    <link rel="stylesheet" href="../plugins/jsgrid/jsgrid.css" />
+    <link rel="stylesheet" href="../plugins/jsgrid/jsgrid-theme.min.css">
+
     <!-- Sweetalert JS v2.1.2 -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js'></script>
+
 
     <!-- Custom Script -->
     <script type="text/javascript">
@@ -69,7 +74,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-cyan navbar-dark">
+        <nav class="main-header navbar navbar-expand navbar-lightblue navbar-dark">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">

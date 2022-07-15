@@ -1,5 +1,60 @@
 <?php
 include_once('header.php');
+error_reporting(0);
+
+if (isset($_GET)) {
+    $id = $_GET['id'];
+    $action = $_GET['action'];
+    // delete user 
+    if ($action == "del" && $id != '') {
+        $delCategory = $con->prepare("DELETE FROM table_categories WHERE category_id=:category_id");
+        $delCategory->bindParam(":category_id", $id);
+        if ($delCategory->execute()) {
+
+            echo "
+            <script>
+            swal({
+                title: 'Deleted!',
+                text: 'User has been deleted',
+                icon: 'success',
+                buttons: false,
+                timer:1500,
+            });
+            setTimeout('window.location =\"category.php\"', 1000);
+            </script>";
+        }
+    } elseif ($action == "edit" && $id != '') {
+
+
+        // Edit category name
+        // $editCategoryQuery = $con->prepare("UPDATE INTO table_categories SET category_name=:category_name WHERE category_id=:category_id");
+        // $editCategoryQuery->bindValue(":categoty_id", $category_id);
+        // $editCategoryQuery->bindValue(":categoty_name", $category_name);
+
+        // if ($editCategoryQuery->execute()) {
+        //     echo "
+        //     <script>
+        //         swal({
+        //             title: 'Updated!',
+        //             text: '{$category_id} - category updated.',
+        //             icon: 'success',
+        //             buttons: true,
+        //             dangerMode: true,
+        //         })
+        //         .then((logout) => {
+        //             if (logout) {
+        //                 window.location = 'category.php';
+        //             }
+        //         });
+        //     </script>
+        //     ";
+        // } else {
+        // }
+    } else {
+        // do nothing
+    }
+}
+
 ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -31,14 +86,14 @@ include_once('header.php');
             <div class="row">
                 <!-- User Registration form -->
                 <div class="col">
-                    <div class="card card-purple">
-                        <div class="card-header">
+                    <div class="card card- card-primary">
+                        <div class="card-header ">
                             <h3 class="card-title">Enter category details</h3>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
                         <div class="card-body row">
-                            <div class="col-sm-4 mx-auto">
+                            <div class="col-sm-4 ">
                                 <form action="" method="POST">
 
                                     <div class="form-group">
@@ -134,42 +189,51 @@ include_once('footer.php');
 
 
 if (isset($_POST['add-category'])) {
-    $category = strtolower(htmlspecialchars($_POST['category_name']));
 
-
-    $checkCategoryQuery = $con->prepare("SELECT * FROM table_categories WHERE category_name =:category");
-    $checkCategoryQuery->bindValue(":category", $category);
-    $checkCategoryQuery->execute();
-
-    if ($checkCategoryQuery->rowCount()) {
-        echo "<script>swal('{$category} -> category already exist', {
-            title:'Warning ',
-            buttons: false,
-            icon: 'warning',
-            timer:3000,
-          });</script>";
-    } else {
-        $addCategoryQuery = $con->prepare("INSERT INTO table_categories(category_name)values(:category)");
-        $addCategoryQuery->bindValue(":category", $category);
-
-        if ($addCategoryQuery->execute()) {
-            echo "<script>
-        swal('New category => {$category}, created successfuly!', {
-            title:'Success',
-            buttons: false,
-            timer: 2500,
-            icon: 'success',
-        });
-        setTimeout('window.location =\"category.php\"', 1000);
-        //window.location ='manageuser.php';
-          </script>";
-        } else {
-            echo "<script>swal('Category creation failed!', {
-                title:'Failed!',
-                buttons: true,
-                timer: 4500,
+    if (empty(htmlspecialchars($_POST['category_name']))) {
+        echo "<script>swal('Field cannot be left blank', {
+                title:'Error! ',
+                buttons: false,
                 icon: 'error',
-              });</script>";
+                timer:3000,
+            });</script>";
+    } else {
+
+        $category = strtolower(htmlspecialchars($_POST['category_name']));
+        $checkCategoryQuery = $con->prepare("SELECT * FROM table_categories WHERE category_name =:category");
+        $checkCategoryQuery->bindValue(":category", $category);
+        $checkCategoryQuery->execute();
+
+        if ($checkCategoryQuery->rowCount()) {
+            echo "<script>swal('{$category} -> category already exist', {
+                    title:'Warning ',
+                    buttons: false,
+                    icon: 'warning',
+                    timer:3000,
+                });</script>";
+        } else {
+            $addCategoryQuery = $con->prepare("INSERT INTO table_categories(category_name)values(:category)");
+            $addCategoryQuery->bindValue(":category", $category);
+
+            if ($addCategoryQuery->execute()) {
+                echo "<script>
+                    swal('New category => {$category} , created successfuly!', {
+                        title:'Success',
+                        buttons: false,
+                        timer: 3500,
+                        icon: 'success',
+                    });
+                    setTimeout('window.location =\"category.php\"', 1000);
+                    //window.location ='manageuser.php';
+                    </script>";
+            } else {
+                echo "<script>swal('Category creation failed!', {
+                        title:'Failed!',
+                        buttons: true,
+                        timer: 4500,
+                        icon: 'error',
+                    });</script>";
+            }
         }
     }
 }

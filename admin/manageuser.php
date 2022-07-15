@@ -19,8 +19,9 @@ if (isset($_GET)) {
                 text: 'User has been deleted',
                 icon: 'success',
                 buttons: false,
-                timer:3500,
+                timer:1500,
             });
+            setTimeout('window.location =\"manageuser.php\"', 1000);
             </script>";
         }
     } elseif ($action == "edit" && $id != '') {
@@ -222,13 +223,15 @@ if (isset($_POST['add-user'])) {
         $insertQuery->bindValue(':role', $role);
 
         if ($insertQuery->execute()) {
-            echo "<script>swal('New \"{$role}\", named {$username} created successfuly!', {
+            echo "<script>
+            swal('New \"{$role}\", named {$username} created successfuly!', {
                 title:'Success - {$role} added',
-                buttons: true,
-                timer: 4500,
+                buttons: false,
+                timer: 1500,
                 icon: 'success',
-              });
-              window.location = \"manageuser.php\";
+            });
+            setTimeout('window.location =\"manageuser.php\"', 1000);
+            //window.location ='manageuser.php';
               </script>";
         } else {
             echo "<script>swal('User creation failed!', {

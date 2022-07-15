@@ -86,7 +86,7 @@ if (isset($_GET)) {
             <div class="row">
                 <!-- User Registration form -->
                 <div class="col">
-                    <div class="card card- card-primary">
+                    <div class="card card-outline card-info">
                         <div class="card-header ">
                             <h3 class="card-title">Enter category details</h3>
                         </div>

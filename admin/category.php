@@ -23,34 +23,43 @@ if (isset($_GET)) {
             setTimeout('window.location =\"category.php\"', 1000);
             </script>";
         }
-    } elseif ($action == "edit" && $id != '') {
+    }
+    // elseif ($action == "edit" && $id != '') {
 
 
-        // Edit category name
-        // $editCategoryQuery = $con->prepare("UPDATE INTO table_categories SET category_name=:category_name WHERE category_id=:category_id");
-        // $editCategoryQuery->bindValue(":categoty_id", $category_id);
-        // $editCategoryQuery->bindValue(":categoty_name", $category_name);
 
-        // if ($editCategoryQuery->execute()) {
-        //     echo "
-        //     <script>
-        //         swal({
-        //             title: 'Updated!',
-        //             text: '{$category_id} - category updated.',
-        //             icon: 'success',
-        //             buttons: true,
-        //             dangerMode: true,
-        //         })
-        //         .then((logout) => {
-        //             if (logout) {
-        //                 window.location = 'category.php';
-        //             }
-        //         });
-        //     </script>
-        //     ";
-        // } else {
-        // }
-    } else {
+
+
+
+
+
+    //     // Edit category name
+    //     // $editCategoryQuery = $con->prepare("UPDATE INTO table_categories SET category_name=:category_name WHERE category_id=:category_id");
+    //     // $editCategoryQuery->bindValue(":categoty_id", $category_id);
+    //     // $editCategoryQuery->bindValue(":categoty_name", $category_name);
+
+    //     // if ($editCategoryQuery->execute()) {
+    //     //     echo "
+    //     //     <script>
+    //     //         swal({
+    //     //             title: 'Updated!',
+    //     //             text: '{$category_id} - category updated.',
+    //     //             icon: 'success',
+    //     //             buttons: true,
+    //     //             dangerMode: true,
+    //     //         })
+    //     //         .then((logout) => {
+    //     //             if (logout) {
+    //     //                 window.location = 'category.php';
+    //     //             }
+    //     //         });
+    //     //     </script>
+    //     //     ";
+    //     // } else {
+    //     // }
+    // } 
+
+    else {
         // do nothing
     }
 }
@@ -94,68 +103,103 @@ if (isset($_GET)) {
                         <!-- form start -->
                         <div class="card-body row">
                             <div class="col-sm-4 ">
-                                <form action="" method="POST">
+                                <?php
+                                if (isset($_POST['editBtn'])) {
+                                    $editID = $_POST['editBtn'];
+                                    echo '
+                                            <div class="card card-warning">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Edit category ID# ' . $editID . '</h3>
+                                                </div>
+                                                <div class="card-body">
+                                                    <form action="" method="post">
+                                                        <div class="form-container row">
+                                                            <div class="form-group">
+                                                                <input type="text" readonly  class="form-control-plaintext" name="catID" value="' . $editID . '" hidden >
+                                                            </div>
+                                                            <div class="form-group col-sm-8">
+                                                                <input name="editedCatName" type="text" class="form-control" placeholder="Category new name">
+                                                            </div> 
+                                                            <div class="form-group col-sm-4">
+                                                                <button name="submitEdit" class="form-control btn btn-info" type="submit">Edit</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            ';
+                                } else {
+                                    echo '
+                                    <form action="" method="POST">
+                                    <div id="addCategoryForm">
+                                        <div class="form-group">
+                                            <label for="category_name">Name</label>
+                                            <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter category name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" name="add-category" class=" btn btn-md btn-danger">
+                                                <i class="fas fa-plus"></i>
+                                                &nbsp; Add category</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!-- Form end -->
+                                    
+                                    ';
+                                }
 
-                                    <div class="form-group">
-                                        <label for="category_name">Name</label>
-                                        <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter category name" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="submit" name="add-category" class=" btn btn-md btn-danger">
-                                            <i class="fas fa-plus"></i>
-                                            &nbsp; Add category</button>
-                                    </div>
+
+                                ?>
+
+
 
                             </div>
                             <div class="col-sm-6 mx-auto">
-                                <table class="table table-bordered table-striped table-white table-hover text-center">
-                                    <thead class="bg-olive">
-                                        <tr>
-                                            <th scope="col" rowspan="2" style="width: 65px !important;">ID</th>
-                                            <th scope="col" rowspan="2">Category</th>
-                                            <th scope="col" colspan="2">Action</th>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="1">Edit</td>
-                                            <td colspan="1">Delete</td>
-                                        </tr>
+                                <form action="" method="post">
+                                    <table class="table table-bordered table-striped table-white table-hover text-center">
+                                        <thead class="bg-olive">
+                                            <tr>
+                                                <th style="width: 100px !important;">ID</th>
+                                                <th>Category</th>
+                                                <th style="min-width: 114px !important;width: 25%;">Action</th>
+                                            </tr>
 
-                                    </thead>
-                                    <tbody>
 
-                                        <?php
-                                        $showUsersQuery = $con->prepare(
-                                            "SELECT category_id, category_name FROM table_categories ORDER BY category_id DESC"
-                                        );
-                                        $showUsersQuery->execute();
+                                        </thead>
+                                        <tbody>
 
-                                        function category($category_id, $category_name)
-                                        {
-                                            echo "
+                                            <?php
+                                            $showUsersQuery = $con->prepare(
+                                                "SELECT category_id, category_name FROM table_categories ORDER BY category_id DESC"
+                                            );
+                                            $showUsersQuery->execute();
+
+                                            function category($category_id, $category_name)
+                                            {
+                                                echo "
                                                 <tr>
                                                     <td>{$category_id}</td>
                                                     <td>{$category_name}</td>
                                                     <td>
-                                                        <a href='?action=edit&id={$category_id}' class=' btn-sm btn-outline-info' title='Edit {$category_name}'>
-                                                        <i class='fas fa-edit'></i>
+                                                        <button type='submit' name='editBtn' value='{$category_id}'  class='btn btn-sm btn-info mx-1' title='Edit {$category_name}'>
+                                                            <i class='fas fa-edit'></i>
+                                                        </button>
 
+                                                        <a href='?action=del&id={$category_id}' class='btn btn-sm btn-danger mx-1' title='Remove {$category_name}'>
+                                                            <i class='fas fa-trash-alt'></i>
                                                         </a>
 
                                                     </td>
-                                                    <td>
-                                                        <a href='?action=del&id={$category_id}' class=' btn-sm btn-outline-danger' title='Remove {$category_name}'>
-                                                        <i class='fas fa-minus-circle'></i>
-
-                                                    </a>
-                                                    </td>
+                                                    
                                                 </tr>";
-                                        }
+                                            }
 
 
-                                        $row = $showUsersQuery->fetchAll(PDO::FETCH_FUNC, "category");
-                                        ?>
-                                    </tbody>
-                                </table>
+                                            $row = $showUsersQuery->fetchAll(PDO::FETCH_FUNC, "category");
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </form>
                             </div>
 
 
@@ -163,8 +207,7 @@ if (isset($_GET)) {
                         <!-- /.card-body -->
 
                         <div class="card-footer">
-                            </form>
-                            <!-- Form end -->
+
                         </div>
                     </div>
                 </div>
@@ -199,7 +242,8 @@ if (isset($_POST['add-category'])) {
             });</script>";
     } else {
 
-        $category = strtolower(htmlspecialchars($_POST['category_name']));
+        $category = str_replace(' ', '_', trim(strtolower(htmlspecialchars($_POST['category_name']))));
+
         $checkCategoryQuery = $con->prepare("SELECT * FROM table_categories WHERE category_name =:category");
         $checkCategoryQuery->bindValue(":category", $category);
         $checkCategoryQuery->execute();
@@ -236,4 +280,53 @@ if (isset($_POST['add-category'])) {
             }
         }
     }
+}
+
+if (isset($_POST['submitEdit'])) {
+
+    $catId = htmlspecialchars($_POST['catID']);
+    $catChangedName =  str_replace(' ', '_', trim(strtolower(htmlspecialchars($_POST['editedCatName']))));
+
+    $checkCategoryQuery = $con->prepare("SELECT * FROM table_categories WHERE category_name =:categoryName");
+    $checkCategoryQuery->bindValue(":categoryName", $catChangedName);
+    $checkCategoryQuery->execute();
+
+    if ($checkCategoryQuery->rowCount()) {
+        echo "<script>swal('{$catChangedName} -> category already exist', {
+                    title:'Warning ',
+                    buttons: false,
+                    icon: 'warning',
+                    timer:3000,
+                });</script>";
+    } else {
+        // UPDATE table_users SET user_password=:new_pass WHERE user_email=:email
+        $updateCategoryQuery = $con->prepare("UPDATE table_categories SET category_name=:categoryName WHERE category_id=:categoryId");
+        $updateCategoryQuery->bindValue(":categoryName", $catChangedName);
+        $updateCategoryQuery->bindValue(":categoryId", $catId);
+
+        if ($updateCategoryQuery->execute()) {
+            echo '<script>swal("Category updated Successfuly!", {
+                title:"Success",
+                buttons: false,
+                timer: 2500,
+                icon: "success",
+              });
+              setTimeout("window.location =\'category.php\'", 1000);
+              </script>';
+        } else {
+            echo '<script>swal("Category not updated!", {
+                title:"Failed!",
+                buttons: false,
+                timer: 2500,
+                icon: "error",
+              });</script>';
+        }
+    }
+
+    // echo "<script>swal('Field Editing code her', {
+    //     title:'{$_POST['catID']} ',
+    //     buttons: false,
+    //     icon: 'info',
+    //     timer:3000,
+    // });</script>";
 }

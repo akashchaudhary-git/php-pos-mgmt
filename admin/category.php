@@ -105,29 +105,53 @@ if (isset($_GET)) {
                             <div class="col-sm-4 ">
                                 <?php
                                 if (isset($_POST['editBtn'])) {
-                                    $editID = $_POST['editBtn'];
-                                    echo '
-                                            <div class="card card-warning">
-                                                <div class="card-header">
-                                                    <h3 class="card-title">Edit category ID# ' . $editID . '</h3>
-                                                </div>
-                                                <div class="card-body">
-                                                    <form action="" method="post">
-                                                        <div class="form-container row">
-                                                            <div class="form-group">
-                                                                <input type="text" readonly  class="form-control-plaintext" name="catID" value="' . $editID . '" hidden >
+                                    $editID = htmlspecialchars($_POST['editBtn']);
+                                    $query = $con->prepare("SELECT * FROM table_categories WHERE category_id=$editID");
+                                    $query->execute();
+
+                                    if ($query->rowCount() == 1) {
+                                        $row = $query->fetch(PDO::FETCH_OBJ);
+                                        echo '
+                                                <div class="card card-warning">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Edit category ID# ' . $editID . '</h3>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <form action="" method="post">
+                                                            <div class="form-container row">
+                                                                <div class="form-group">
+                                                                    <input type="text" readonly  class="form-control-plaintext" name="catID" value="' . $editID . '" hidden >
+                                                                </div>
+                                                                <div class="form-group col-sm-8">
+                                                                    <input name="editedCatName" type="text" value="' . $row->category_name . '" class="form-control" placeholder="Category new name">
+                                                                </div> 
+                                                                <div class="form-group col-sm-4">
+                                                                    <button name="submitEdit" class="form-control btn btn-info" type="submit">Edit</button>
+                                                                </div>
                                                             </div>
-                                                            <div class="form-group col-sm-8">
-                                                                <input name="editedCatName" type="text" class="form-control" placeholder="Category new name">
-                                                            </div> 
-                                                            <div class="form-group col-sm-4">
-                                                                <button name="submitEdit" class="form-control btn btn-info" type="submit">Edit</button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
+                                                        </form>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            ';
+                                                ';
+                                    } else {
+                                        echo '
+                                    <form action="" method="POST">
+                                    <div id="addCategoryForm">
+                                        <div class="form-group">
+                                            <label for="category_name">Name</label>
+                                            <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter category name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" name="add-category" class=" btn btn-md btn-danger">
+                                                <i class="fas fa-plus"></i>
+                                                &nbsp; Add category</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!-- Form end -->
+                                    
+                                    ';
+                                    }
                                 } else {
                                     echo '
                                     <form action="" method="POST">
@@ -147,7 +171,6 @@ if (isset($_GET)) {
                                     
                                     ';
                                 }
-
 
                                 ?>
 
@@ -169,10 +192,10 @@ if (isset($_GET)) {
                                         <tbody>
 
                                             <?php
-                                            $showUsersQuery = $con->prepare(
+                                            $showCategoryQuery = $con->prepare(
                                                 "SELECT category_id, category_name FROM table_categories ORDER BY category_id DESC"
                                             );
-                                            $showUsersQuery->execute();
+                                            $showCategoryQuery->execute();
 
                                             function category($category_id, $category_name)
                                             {
@@ -195,7 +218,7 @@ if (isset($_GET)) {
                                             }
 
 
-                                            $row = $showUsersQuery->fetchAll(PDO::FETCH_FUNC, "category");
+                                            $row = $showCategoryQuery->fetchAll(PDO::FETCH_FUNC, "category");
                                             ?>
                                         </tbody>
                                     </table>
@@ -322,11 +345,4 @@ if (isset($_POST['submitEdit'])) {
               });</script>';
         }
     }
-
-    // echo "<script>swal('Field Editing code her', {
-    //     title:'{$_POST['catID']} ',
-    //     buttons: false,
-    //     icon: 'info',
-    //     timer:3000,
-    // });</script>";
 }

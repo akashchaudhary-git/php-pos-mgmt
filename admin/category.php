@@ -179,7 +179,7 @@ if (isset($_GET)) {
                             </div>
                             <div class="col-sm-6 mx-auto">
                                 <form action="" method="post">
-                                    <table class="table table-bordered table-striped table-white table-hover text-center">
+                                    <table id="categoryTable" class="table table-bordered table-striped table-white table-hover text-center">
                                         <thead class="bg-olive">
                                             <tr>
                                                 <th style="width: 100px !important;">ID</th>
@@ -246,8 +246,12 @@ if (isset($_GET)) {
 </div>
 <!-- /.content-wrapper -->
 
-
-
+<!-- Assign DataTable plugin to a table -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#categoryTable').DataTable();
+    });
+</script>
 
 <?php
 

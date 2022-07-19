@@ -46,9 +46,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="../plugins/jsgrid/jsgrid.css" />
     <link rel="stylesheet" href="../plugins/jsgrid/jsgrid-theme.min.css">
 
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+
     <!-- Sweetalert JS v2.1.2 -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js'></script>
-
+    <!-- jQuery -->
+    <script src="../plugins/jquery/jquery.min.js"></script>
 
     <!-- Custom Script -->
     <script type="text/javascript">

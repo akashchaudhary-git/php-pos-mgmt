@@ -131,8 +131,8 @@ if (isset($_GET)) {
                             <h3 class="card-title">Recently added</h3>
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body p-0">
-                            <table id="userTable" class="table table-hover text-center">
+                        <div class="card-body p-2">
+                            <table id="userTable" class="table table-border table-hover text-center">
                                 <thead>
                                     <tr>
                                         <th style="width: 10px !important">#</th>

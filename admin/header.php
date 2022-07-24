@@ -39,6 +39,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css" />
+
+    <link rel="stylesheet" href="../plugins/ion-rangeslider/css/ion.rangeSlider.min.css">
+
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/adminlte.min.css" />
 
@@ -81,7 +84,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-lightblue navbar-dark">
+        <nav class="main-header navbar navbar-expand navbar-orange navbar-dark">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -158,10 +161,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-maroon elevation-4">
+        <aside class="main-sidebar sidebar-dark-teal elevation-4">
             <!-- Brand Logo -->
             <a href="dashboard.php" class="brand-link">
-                <img src="../dist/img/AdminLTELogo.png" alt="POS Management" class="brand-image img-circle elevation-3" style="opacity: 0.8" />
+                <img src="../dist/img/AdminLTELogo.png" alt="POS Management" class="brand-image img-circle elevation-3" style="opacity: 0.6" />
                 <span class="brand-text font-weight-light">POS Management</span>
             </a>
 
@@ -208,19 +211,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- Category link -->
                         <li class="nav-item">
                             <a href="category.php" class="nav-link <?php echo '' . ($category) ? 'active' : ''; ?>">
-                                <i class="nav-icon fas fa-clipboard-list"></i>
+                                <i class="nav-icon fas fa-th-list"></i>
                                 <p>
                                     Category
                                 </p>
                             </a>
                         </li>
-                        <!-- Registration link -->
+                        <!-- Manage User Registration link -->
                         <li class="nav-item">
                             <a href="manageuser.php" class="nav-link <?php echo '' . ($manageuser) ? 'active' : ''; ?>">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     Manage Users
                                     <!-- <span class="right badge badge-danger">New</span> -->
+                                </p>
+                            </a>
+                        </li>
+                        <!-- Product link -->
+                        <li class="nav-item">
+                            <a href="product.php" class="nav-link <?php echo '' . ($product) ? 'active' : ''; ?>">
+                                <!-- <i class="nav-icon fas fa-qrcode"></i> -->
+                                <!-- <i class="nav-icon fas fa-apple-alt"></i> -->
+                                <i class="nav-icon fas fa-shopping-bag"></i>
+                                <p>
+                                    Products
                                 </p>
                             </a>
                         </li>

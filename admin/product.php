@@ -40,7 +40,7 @@ include_once('header.php');
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form action="" method="post" name="formProduct">
+                        <form action="" method="post" name="formProduct" enctype="multipart/form-data">
                             <div class="card-body row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
@@ -90,12 +90,13 @@ include_once('header.php');
                                         <textarea class="form-control" rows="4" name="productDesc" id="productDesc" placeholder="Enter product description..." required></textarea>
                                     </div>
                                     <div class="form-group">
-                                        <label>Product Image</label>
+                                        <label for="customFile">Product Image</label>
                                         <div class="custom-file">
                                             <label class="custom-file-label" for="productImage">Upload image..</label>
                                             <input type="file" class="custom-file-input" id="productImage" name="productImage" required>
                                         </div>
                                     </div>
+
                                 </div>
 
 
@@ -117,7 +118,14 @@ include_once('header.php');
 </div>
 <!-- /.content-wrapper -->
 
-
+<script>
+    $('#productImage').on('change', function() {
+        //get the file name
+        var fileName = $(this).val().replace('C:\\fakepath\\', "");
+        //replace the "Choose a file" label
+        $(this).prev('.custom-file-label').html(fileName);
+    });
+</script>
 
 <?php
 
@@ -138,4 +146,114 @@ function showCategoryOption($con)
     }
 
     return $row = $showCategoryQuery->fetchAll(PDO::FETCH_FUNC, "category");
+}
+
+
+if (isset($_POST['btnAddProduct'])) {
+
+    $productName = htmlspecialchars(trim($_POST['productName']));
+    $productCategory = str_replace(' ', '_', trim(strtolower(htmlspecialchars($_POST['productCategory']))));
+    $costPrice = htmlspecialchars(trim($_POST['costPrice']));
+    $salePrice = htmlspecialchars(trim($_POST['salePrice']));
+    $productStock = htmlspecialchars(trim($_POST['productStock']));
+    $productDesc = htmlspecialchars(trim($_POST['productDesc']));
+
+
+    $checkProductQuery = $con->prepare("SELECT * FROM table_products WHERE product_name =:productName AND product_category=:productCategory");
+    $checkProductQuery->bindValue(":productName", $productName);
+    $checkProductQuery->bindValue(":productCategory", $productCategory);
+    $checkProductQuery->execute();
+
+    if ($checkProductQuery->rowCount()) {
+        echo "<script>swal('{$productName} -> product already exist', {
+                    title:'Warning ',
+                    buttons: false,
+                    icon: 'warning',
+                    timer:3000,
+                });</script>";
+    } else {
+
+        $filename = $_FILES['productImage']['name'];
+        $file_tmp = $_FILES['productImage']['tmp_name'];
+
+        $file_size = $_FILES['productImage']['size'];
+        $file_extension = explode('.', $filename);
+        $file_extension = strtolower(end($file_extension));
+        $file_newFile = uniqid() . '.' . $file_extension;
+        $saveFile = "../assets/images/products/" . $file_newFile;
+
+        if ($file_extension == 'jpg' || $file_extension == 'jpeg' || $file_extension == 'png' || $file_extension == 'gif') {
+            if ($file_size >= 1000000) {
+                echo "<script>swal('Max file size 1MB(1024KB) allowed!', {
+                    title:'Failed!',
+                    buttons: false,
+                    timer: 2500,
+                    icon: 'error',
+                });</script>";
+            } else {
+                if (move_uploaded_file($file_tmp, $saveFile)) {
+                    // echo "<script>swal('File uploaded!', {
+                    //     title:'Success!',
+                    //     buttons: true,
+                    //     timer: 3500,
+                    //     icon: 'success',
+                    // });</script>";
+                    $productImage = $file_newFile;
+                }
+                // $addProductQuery = $con->prepare("INSERT INTO table_products(product_name,product_category,product_costPrice,product_salePrice,product_stock,product_description,product_image)
+                // values(:name,:category,:costPrice,:salePrice,:stock,:description,:image)");
+
+                // $addProductQuery->bindValue(":name", $productName);
+                // $addProductQuery->bindValue(":category", $productCategory);
+                // $addProductQuery->bindValue(":costPrice", $costPrice);
+                // $addProductQuery->bindValue(":salePrice", $salePrice);
+                // $addProductQuery->bindValue(":stock", $productStock);
+                // $addProductQuery->bindValue(":description", $productDesc);
+            }
+        } else {
+            echo "<script type='text/javascript'>swal('Only \".jpg/jpeg\" \".png\" \".gif\" files are supported', {
+                title:'Warning!',
+                buttons: false,
+                timer: 3500,
+                icon: 'warning',
+            });</script>";
+        }
+
+
+        if (isset($productImage)) {
+
+            $addProductQuery = $con->prepare("INSERT INTO table_products(product_name,product_category,product_costPrice,product_salePrice,product_stock,product_description,product_image) values(:name,:category,:costPrice,:salePrice,:stock,:description,:image)");
+
+            $addProductQuery->bindValue(":name", $productName);
+            $addProductQuery->bindValue(":category", $productCategory);
+            $addProductQuery->bindValue(":costPrice", $costPrice);
+            $addProductQuery->bindValue(":salePrice", $salePrice);
+            $addProductQuery->bindValue(":stock", $productStock);
+            $addProductQuery->bindValue(":description", $productDesc);
+            $addProductQuery->bindValue(":image", $productImage);
+
+
+            if ($addProductQuery->execute()) {
+                echo "<script>
+                        swal('New product - {$productName} , created successfuly!', {
+                            title:'Success',
+                            buttons: false,
+                            timer: 3500,
+                            icon: 'success',
+                        });
+                        // setTimeout('window.location =\"category.php\"', 1000);
+                        //window.location ='manageuser.php';
+                        </script>";
+            } else {
+                echo "<script>swal('Product creation failed!', {
+                            title:'Failed!',
+                            buttons: true,
+                            timer: 4500,
+                            icon: 'error',
+                        });</script>";
+            }
+        } else {
+            echo 'productImage not set';
+        }
+    }
 }

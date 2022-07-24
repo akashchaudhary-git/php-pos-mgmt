@@ -34,6 +34,7 @@ include_once('header.php');
                         <div class="card-header d-flex align-items-center">
                             <h3 class="card-title mr-auto">Add Product details</h3>
                             <a href="#" class="btn btn-info" role="button">
+                                <i class="fas fa-external-link-alt">&nbsp;</i>
                                 Go to Product List
                             </a>
                         </div>
@@ -69,12 +70,12 @@ include_once('header.php');
                                                 </div>
                                                 <input type="number" class="form-control" name="purchasePrice" id="purchasePrice" placeholder="Enter amount">
                                             </div> -->
-                                            <label for="purchasePrice">Purchase Price</label>
-                                            <input type="number" class="form-control" name="purchasePrice" id="purchasePrice" placeholder="Purchased price" required>
+                                            <label for="costPrice">Cost Price (<i class="fas fa-rupee-sign"></i>)</label>
+                                            <input type="text" class="form-control" name="costPrice" id="costPrice" placeholder="Purchase price" required>
                                         </div>
                                         <div class="form-group col-6">
-                                            <label for="salePrice">Sale Price</label>
-                                            <input type="number" class="form-control" name="salePrice" id="salePrice" placeholder="Selling price" required>
+                                            <label for="salePrice">Sale Price (<i class="fas fa-rupee-sign"></i>)</label>
+                                            <input type="text" class="form-control" name="salePrice" id="salePrice" placeholder="Selling price" required>
                                         </div>
                                     </div>
 
@@ -100,7 +101,9 @@ include_once('header.php');
 
                             </div>
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-success" name="btnAddProduct">Add product</button>
+                                <button type="submit" class="btn btn-success" name="btnAddProduct">
+                                    <i class="fas fa-plus">&nbsp;</i>
+                                    Add product</button>
                             </div>
                         </form>
                     </div>

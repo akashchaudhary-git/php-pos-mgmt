@@ -30,10 +30,10 @@ include_once('header.php');
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-10 mx-auto">
-                    <div class="card card-outline card-success">
+                    <div class="card card-outline card-pink">
                         <div class="card-header d-flex align-items-center">
                             <h3 class="card-title mr-auto">Add Product details</h3>
-                            <a href="productlist.php" class="btn btn-info" role="button">
+                            <a href="productlist.php" class="btn btn-sm bg-indigo" role="button">
                                 <i class="fas fa-external-link-alt">&nbsp;</i>
                                 Go to Product List
                             </a>

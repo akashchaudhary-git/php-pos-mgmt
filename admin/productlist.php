@@ -60,49 +60,49 @@ include_once('header.php');
                                     <tbody>
 
                                         <?php
-                                        try {
-                                            $showProductsQuery = $con->prepare(
-                                                "SELECT * FROM table_products ORDER BY product_id DESC"
-                                            );
-                                            $showProductsQuery->execute();
+                                        // try {
+                                        $showProductsQuery = $con->prepare(
+                                            "SELECT table_products.product_id, table_products.product_name, table_categories.category_name, table_products.product_costPrice, table_products.product_salePrice, table_products.product_stock, table_products.product_description, table_products.product_image
+                                            FROM table_products
+                                            INNER JOIN table_categories ON table_categories.category_id=table_products.product_categoryId"
+                                            // "SELECT * FROM table_products ORDER BY product_id DESC"
+                                        );
+                                        $showProductsQuery->execute();
 
-                                            function products($product_id, $product_name, $product_category, $product_costPrice, $product_salePrice, $product_stock, $product_description, $product_image)
-                                            {
-                                                echo "
+                                        function products($product_id, $product_name, $category_name, $product_costPrice, $product_salePrice, $product_stock, $product_description, $product_image)
+                                        {
+                                            echo "
                                                     <tr>
                                                         <td>{$product_id}</td>
                                                         <td>{$product_name}</td>
-                                                        <td>{$product_category}</td>
+                                                        <td>{$category_name}</td>
                                                         <td>{$product_costPrice}</td>
                                                         <td>{$product_salePrice}</td>
                                                         <td>{$product_stock}</td>
                                                         <td>{$product_description}</td>
                                                         <td>
-                                                        <img src='../assets/images/products/{$product_image}' class='img-rounded' alt='{$product_name}' width='100' height='100'> 
+                                                        <img src='../assets/images/products/{$product_image}' class='img-rounded' alt='{$product_name}' width='70' height='70'> 
                                                         </td>
-                                                        <td>
-                                                            <a href='#' class='btn btn-sm btn-info' data-toggle='tooltip' title='View Product'>
-                                                            <i class='far fa-eye'>&nbsp;</i>
-                                                                View
+                                                        <td class='pt-4 '>
+                                                            <a href='#' class='btn btn-sm btn-info mx-2' data-toggle='tooltip' title='View Product'>
+                                                                <i class='far fa-eye'></i> View
                                                             </a>
-                                                            <a href='#' class='btn btn-sm btn-primary' data-toggle='tooltip' data-placement='bottom' title='Edit product'>
-                                                            <i class='far fa-edit'>&nbsp;</i>
-                                                                Edit
+                                                            <a href='#' class='btn btn-sm btn-primary mx-2' data-toggle='tooltip' data-placement='bottom' title='Edit product'>
+                                                                <i class='far fa-edit'></i> Edit
                                                             </a>
-                                                            <a href='#' class='btn btn-sm btn-danger' data-toggle='tooltip' title='Delete product'>
-                                                            <i class='far fa-trash-alt'>&nbsp;</i>
-                                                                Delete
+                                                            <a href='#' class='btn btn-sm btn-danger mx-2' data-toggle='tooltip' title='Delete product'>
+                                                                <i class='far fa-trash-alt'></i> Delete
                                                             </a>
     
     
                                                         </td>
                                                     </tr>";
-                                            }
-
-                                            $row = $showProductsQuery->fetchAll(PDO::FETCH_FUNC, "products");
-                                        } catch (Exception $e) {
-                                            echo $e->getMessage();
                                         }
+
+                                        $row = $showProductsQuery->fetchAll(PDO::FETCH_FUNC, "products");
+                                        // } catch (Exception $e) {
+                                        //     echo $e->getMessage();
+                                        // }
                                         ?>
                                     </tbody>
                                 </table>

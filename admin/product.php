@@ -134,14 +134,14 @@ include_once('footer.php');
 function showCategoryOption($con)
 {
     $showCategoryQuery = $con->prepare(
-        "SELECT category_name FROM table_categories ORDER BY category_id DESC"
+        "SELECT * FROM table_categories ORDER BY category_id DESC"
     );
     $showCategoryQuery->execute();
 
-    function category($category_name)
+    function category($category_id, $category_name)
     {
         echo "
-            <option name='{$category_name}'>" . ucwords(str_replace("_", " ", $category_name)) . " </option>
+            <option name='{$category_id}'>" . ucwords(str_replace("_", " ", $category_name)) . " </option>
             ";
     }
 

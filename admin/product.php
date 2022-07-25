@@ -33,7 +33,7 @@ include_once('header.php');
                     <div class="card card-outline card-success">
                         <div class="card-header d-flex align-items-center">
                             <h3 class="card-title mr-auto">Add Product details</h3>
-                            <a href="#" class="btn btn-info" role="button">
+                            <a href="productlist.php" class="btn btn-info" role="button">
                                 <i class="fas fa-external-link-alt">&nbsp;</i>
                                 Go to Product List
                             </a>

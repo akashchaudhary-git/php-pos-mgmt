@@ -34,7 +34,7 @@ include_once('header.php');
                     <div class="card card-outline card-warning">
                         <div class="card-header ">
                             <h3 class="card-title">Product List</h3>
-                            <a href="product.php" class="btn btn-sm bg-indigo float-sm-right" role="button">
+                            <a href="product.php" class="btn btn-sm bg-indigo float-right" role="button">
                                 <i class="fas fa-external-link-alt">&nbsp;</i>
                                 Go back to Products
                             </a>
@@ -141,7 +141,9 @@ include_once('header.php');
 
             "order": [
                 [0, "desc"]
-            ]
+            ],
+            "pageLength": 5,
+            "lengthMenu": [5, 10, 25, 50, 75, 100]
         });
     });
 </script>

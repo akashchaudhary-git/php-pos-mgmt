@@ -48,8 +48,8 @@ include_once('header.php');
                                         <input type="text" class="form-control" name="productName" id="productName" placeholder="Enter product name" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="productCategory">Category</label>
-                                        <select class="custom-select" name="productCategory" id="productCategory" required>
+                                        <label for="productCategoryId">Category</label>
+                                        <select class="custom-select" name="productCategoryId" id="productCategoryId" required>
                                             <option value="" selected disabled>Select category</option>
                                             <?php
                                             showCategoryOption($con);
@@ -141,36 +141,38 @@ function showCategoryOption($con)
     function category($category_id, $category_name)
     {
         echo "
-            <option name='{$category_id}'>" . ucwords(str_replace("_", " ", $category_name)) . " </option>
+            <option value='{$category_id}'>" . ucwords(str_replace("_", " ", $category_name)) . " </option>
             ";
     }
 
-    return $row = $showCategoryQuery->fetchAll(PDO::FETCH_FUNC, "category");
+    $row = $showCategoryQuery->fetchAll(PDO::FETCH_FUNC, "category");
+    return $row;
 }
 
 
 if (isset($_POST['btnAddProduct'])) {
 
     $productName = htmlspecialchars(trim($_POST['productName']));
-    $productCategory = str_replace(' ', '_', trim(strtolower(htmlspecialchars($_POST['productCategory']))));
+    $productCategoryId = $_POST['productCategoryId'];
     $costPrice = htmlspecialchars(trim($_POST['costPrice']));
     $salePrice = htmlspecialchars(trim($_POST['salePrice']));
     $productStock = htmlspecialchars(trim($_POST['productStock']));
     $productDesc = htmlspecialchars(trim($_POST['productDesc']));
 
 
-    $checkProductQuery = $con->prepare("SELECT * FROM table_products WHERE product_name =:productName AND product_category=:productCategory");
+    $checkProductQuery = $con->prepare("SELECT * FROM table_products WHERE product_name =:productName AND product_categoryId=:productCategoryId");
     $checkProductQuery->bindValue(":productName", $productName);
-    $checkProductQuery->bindValue(":productCategory", $productCategory);
+    $checkProductQuery->bindValue(":productCategoryId", $productCategoryId);
     $checkProductQuery->execute();
 
     if ($checkProductQuery->rowCount()) {
         echo "<script>swal('{$productName} -> product already exist', {
-                    title:'Warning ',
+                    title:'Warning',
                     buttons: false,
                     icon: 'warning',
                     timer:3000,
-                });</script>";
+                });
+                </script>";
     } else {
 
         $filename = $_FILES['productImage']['name'];
@@ -192,23 +194,9 @@ if (isset($_POST['btnAddProduct'])) {
                 });</script>";
             } else {
                 if (move_uploaded_file($file_tmp, $saveFile)) {
-                    // echo "<script>swal('File uploaded!', {
-                    //     title:'Success!',
-                    //     buttons: true,
-                    //     timer: 3500,
-                    //     icon: 'success',
-                    // });</script>";
+                    // save file to server and assign file name to $productImage
                     $productImage = $file_newFile;
                 }
-                // $addProductQuery = $con->prepare("INSERT INTO table_products(product_name,product_category,product_costPrice,product_salePrice,product_stock,product_description,product_image)
-                // values(:name,:category,:costPrice,:salePrice,:stock,:description,:image)");
-
-                // $addProductQuery->bindValue(":name", $productName);
-                // $addProductQuery->bindValue(":category", $productCategory);
-                // $addProductQuery->bindValue(":costPrice", $costPrice);
-                // $addProductQuery->bindValue(":salePrice", $salePrice);
-                // $addProductQuery->bindValue(":stock", $productStock);
-                // $addProductQuery->bindValue(":description", $productDesc);
             }
         } else {
             echo "<script type='text/javascript'>swal('Only \".jpg/jpeg\" \".png\" \".gif\" files are supported', {
@@ -222,10 +210,10 @@ if (isset($_POST['btnAddProduct'])) {
 
         if (isset($productImage)) {
 
-            $addProductQuery = $con->prepare("INSERT INTO table_products(product_name,product_category,product_costPrice,product_salePrice,product_stock,product_description,product_image) values(:name,:category,:costPrice,:salePrice,:stock,:description,:image)");
+            $addProductQuery = $con->prepare("INSERT INTO table_products(product_name,product_categoryId,product_costPrice,product_salePrice,product_stock,product_description,product_image) values(:name,:categoryId,:costPrice,:salePrice,:stock,:description,:image)");
 
             $addProductQuery->bindValue(":name", $productName);
-            $addProductQuery->bindValue(":category", $productCategory);
+            $addProductQuery->bindValue(":categoryId", $productCategoryId);
             $addProductQuery->bindValue(":costPrice", $costPrice);
             $addProductQuery->bindValue(":salePrice", $salePrice);
             $addProductQuery->bindValue(":stock", $productStock);

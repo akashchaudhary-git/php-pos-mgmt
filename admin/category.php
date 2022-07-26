@@ -204,11 +204,11 @@ if (isset($_GET)) {
                                                     <td>{$category_id}</td>
                                                     <td>{$category_name}</td>
                                                     <td>
-                                                        <button type='submit' name='editBtn' value='{$category_id}'  class='btn btn-sm btn-info mx-1' title='Edit {$category_name}'>
+                                                        <button type='submit' name='editBtn' value='{$category_id}'  class='btn btn-sm btn-info mx-1' data-toggle='tooltip' data-placement='left' title='Edit {$category_name}'>
                                                             <i class='fas fa-edit'></i>
                                                         </button>
 
-                                                        <a href='?action=del&id={$category_id}' class='btn btn-sm btn-danger mx-1' title='Remove {$category_name}'>
+                                                        <a href='?action=del&id={$category_id}' class='btn btn-sm btn-danger mx-1' data-toggle='tooltip' data-placement='right' title='Remove {$category_name}'>
                                                             <i class='fas fa-trash-alt'></i>
                                                         </a>
 
@@ -249,7 +249,14 @@ if (isset($_GET)) {
 <!-- Assign DataTable plugin to a table -->
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#categoryTable').DataTable();
+        $('#categoryTable').DataTable({
+            "order": [
+                [0, "desc"]
+            ],
+            "pageLength": 10,
+            "lengthMenu": [5, 10, 25, 50, 75, 100]
+        });
+        $('[data-toggle="tooltip"]').tooltip();
     });
 </script>
 

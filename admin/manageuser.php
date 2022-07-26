@@ -191,7 +191,13 @@ if (isset($_GET)) {
 <!-- Assign DataTable plugin to a table -->
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#userTable').DataTable();
+        $('#userTable').DataTable({
+            "order": [
+                [0, "desc"]
+            ],
+            "pageLength": 5,
+            "lengthMenu": [5, 10, 25, 50, 75, 100]
+        });
     });
 </script>
 
